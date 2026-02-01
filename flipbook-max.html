@@ -1,0 +1,37 @@
+// Generate flipbook pages from typed text
+function generateFromText() {
+  const flipbook = document.getElementById("flipbook");
+  const text = document.getElementById("textPrompt").value.trim();
+
+  if (!text) {
+    alert("Please type an idea!");
+    return;
+  }
+
+  flipbook.innerHTML = "";
+  pages = []; // reset pages array
+
+  // Split text into sentences or chunks for pages
+  const chunks = text.match(/.{1,100}/g) || [text];
+
+  chunks.forEach((chunk, index) => {
+    const page = document.createElement("div");
+    page.className = "page";
+    page.style.zIndex = chunks.length - index;
+
+    const p = document.createElement("p");
+    p.textContent = chunk;
+    p.style.padding = "20px";
+    p.style.fontSize = "1.2rem";
+    p.style.color = "#000";
+
+    page.appendChild(p);
+    flipbook.appendChild(page);
+    pages.push(page);
+
+    // Add click flip
+    page.addEventListener("click", () => {
+      page.classList.toggle("flipped");
+    });
+  });
+}
